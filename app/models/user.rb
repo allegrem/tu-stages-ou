@@ -26,14 +26,18 @@ class User
     country_changed? && city_changed?
   end
 
+  def name
+    email.partition('@').first.gsub('.', ' ').titleize
+  end
+
   def to_geojson
     """{
         type: 'Feature',
         properties: {
-            title: '#{email}',
-            'marker-color': '#f86767',
+            title: '#{name}',
+            'marker-color': '#f39c12',
             'marker-size': 'large',
-            'marker-symbol': 'star'
+            'marker-symbol': 'heart'
         },
         geometry: {
             type: 'Point',

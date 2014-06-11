@@ -24,9 +24,7 @@
 <footer class="leaflet-control-attribution">Made with love in 802 - <a href="#">Fork me on GitHub</a></footer>
 
 
-<div id="map">
-  <%= map center: { latlng: [30, 0], zoom: 3 } %>
-</div>
+<div id="map"></div>
 
 
 
@@ -34,7 +32,10 @@
 <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.css' rel='stylesheet' />
 
 <script type="text/javascript">
+  var map = L.mapbox.map('map', 'allegrem.ifmbko0h').setView([30,0], 3);
   var myLayer = L.mapbox.featureLayer().addTo(map);
   var geojson = { type: 'FeatureCollection', features: [<%=raw @users.map(&:to_geojson).join(',') %>] };
   myLayer.setGeoJSON(geojson);
+  myLayer.on('mouseover', function(e) { e.layer.openPopup(); });
+  myLayer.on('mouseout', function(e) { e.layer.closePopup(); });
 </script>
