@@ -37,40 +37,6 @@ form {
   border-radius: 1em;
   min-width: 20%;
 
-  input {
-    margin: 0.5em;
-    width: 90%;
-    border: solid rgba(44,62,80,0.2) 1px;
-    border-radius: 0.3em;
-    padding: 0.2em;
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.5em;
-
-    &:focus {
-      border-color: rgba(44,62,80,0.5);
-      outline: none;
-    }
-
-    &[type=submit] {
-      width: 93%;
-      background-color: rgb(44,62,80);
-      color: #ecf0f1;
-      font-size: 1.7em;
-
-      &:focus, &:hover {
-        background-color: rgb(74,92,110);
-      }
-
-      &.disabled {
-        background-color: rgb(200,200,200);
-      }
-    }
-
-    &.half-control {
-      width: 50%;
-    }
-  }
-
   small {
     font-family: 'Roboto', sans-serif;
     font-size: 1.2em;
@@ -81,4 +47,48 @@ form {
     color: #C0392B;
     font-weight: 300;
   }
+}
+
+input {
+  margin: 0.5em;
+  width: 90%;
+  border: solid rgba(44,62,80,0.2) 1px;
+  border-radius: 0.3em;
+  padding: 0.2em;
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5em;
+
+  &:focus {
+    border-color: rgba(44,62,80,0.5);
+    outline: none;
+  }
+
+  &[type=submit] {
+    width: 93%;
+    background-color: rgb(44,62,80);
+    color: #ecf0f1;
+    font-size: 1.7em;
+
+    &:focus, &:hover {
+      background-color: rgb(74,92,110);
+    }
+
+    &.disabled {
+      background-color: rgb(200,200,200);
+    }
+  }
+
+  &.half-control {
+    width: 50%;
+  }
+}
+
+#search {
+  position: absolute;
+  top: 5em;
+  left: 15px;
+  z-index: 2;
+  margin: 0;
+  width: 28%;
+  padding: 0.2em 1%;
 }
