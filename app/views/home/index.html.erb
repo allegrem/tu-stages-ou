@@ -2,13 +2,24 @@
 
 <button id="open-form">+</button>
 
-<form action="#" method="post">
-    <div><input type="text" name="email" value="" tabindex="1" placeholder="jean.dupont" class="half-control" /><small>@telecom-paristech.fr</small></div>
-    <div><input type="text" name="company" value="" tabindex="1" placeholder="Ton entreprise" /></div>
-    <div><input type="text" name="city" value="" tabindex="1" placeholder="La ville de ton entreprise" /></div>
-    <div><input type="text" name="country" value="" tabindex="1" placeholder="Le pays de ton entreprise" /></div>
-    <div><input type="submit" value="Envoyer" /></div>
-</form>
+<%= form_for @user, url: '#' do |f| %>
+  <div>
+    <%= f.text_field :email, placeholder: "jean.dupont", class: "half-control" %>
+    <small>@telecom-paristech.fr</small>
+  </div>
+  <div>
+    <%= f.text_field :company, placeholder: "Google" %>
+  </div>
+  <div>
+    <%= f.text_field :city, placeholder: "Montain View" %>
+  </div>
+  <div>
+    <%= f.text_field :country, placeholder: "USA" %>
+  </div>
+  <div>
+    <%= f.submit 'Envoyer' %>
+  </div>
+<% end %>
 
 <footer class="leaflet-control-attribution">Made with love in 802 - <a href="#">Fork me on GitHub</a></footer>
 
