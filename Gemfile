@@ -38,5 +38,13 @@ gem 'spring',        group: :development
 # Use debugger
 gem 'debugger', group: [:development, :test]
 
+gem 'active_model_serializers'
+
 gem 'leaflet-rails'
+
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request'
+end
 
