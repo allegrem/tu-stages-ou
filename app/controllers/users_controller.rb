@@ -1,5 +1,9 @@
 class UsersController < ApplicationController
 
+  def index
+    render json: User.all
+  end
+
   def create
     User.create! user_params
     render nothing: true, status: :created

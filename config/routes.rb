@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :users, only: [:create, :destroy]
+  resources :users, only: [:index, :create, :destroy]
 
   get 'home/index'
 

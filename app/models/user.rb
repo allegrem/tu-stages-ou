@@ -12,7 +12,7 @@ class User
   geocoded_by :address
   after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
 
-  validates :email, presence: true, format: /\A[a-zA-Z0-9._%+-]+@telecom\-paristech\.fr\Z/
+  validates :email, presence: true, format: /\A[a-zA-Z0-9._%+-]+@telecom\-paristech\.fr\Z/, uniqueness: true
   validates :company, presence: true
   validates :city, presence: true
   validates :country, presence: true
@@ -34,7 +34,7 @@ class User
     """{
         type: 'Feature',
         properties: {
-            title: '#{name}',
+            title: '#{name} @ #{company}',
             'marker-color': '#f39c12',
             'marker-size': 'large',
             'marker-symbol': 'heart'
@@ -42,6 +42,10 @@ class User
         geometry: {
             type: 'Point',
             coordinates: #{coordinates}
+        },
+        attributes: {
+          name: '#{name}',
+          company: '#{company}'
         }
     }"""
   end

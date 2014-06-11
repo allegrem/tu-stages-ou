@@ -26,16 +26,5 @@
 
 <div id="map"></div>
 
-
-
 <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.css' rel='stylesheet' />
-
-<script type="text/javascript">
-  var map = L.mapbox.map('map', 'allegrem.ifmbko0h').setView([30,0], 3);
-  var myLayer = L.mapbox.featureLayer().addTo(map);
-  var geojson = { type: 'FeatureCollection', features: [<%=raw @users.map(&:to_geojson).join(',') %>] };
-  myLayer.setGeoJSON(geojson);
-  myLayer.on('mouseover', function(e) { e.layer.openPopup(); });
-  myLayer.on('mouseout', function(e) { e.layer.closePopup(); });
-</script>
