@@ -15,10 +15,10 @@ $(document).ready ->
     dataType: 'json'
     url: '/users'
     success: (json) ->
-      document.usersJSON = json
       geojson = type: 'FeatureCollection', features: []
       for u in json.users
-        $userList.append "<div class=\"userEntry\"><strong>#{u.name}</strong>#{u.company} (#{u.city} - #{u.country})</div>"
+        userEntry = $("<div class=\"userEntry\" data-name=\"#{u.name}\"><strong>#{u.name}</strong>#{u.company} (#{u.city} - #{u.country})</div>")
+        $userList.append userEntry.hide()
 
         geojson.features.push
           type: 'Feature'

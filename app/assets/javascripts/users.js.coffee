@@ -39,7 +39,15 @@ $(document).ready ->
 #search form
 $(document).ready ->
   $form = $('#searchForm')
+  $form.focus()
+  $userList = $('#userList')
 
-  # $form.keyup ->
-  #   for u in document.usersJSON
-  #     
+  $form.keyup ->
+    if $form.val() is ""
+      $('#userList .userEntry').hide()
+    else
+      $('#userList .userEntry').each ->
+        if $(this).data('name').toLowerCase().indexOf($form.val().toLowerCase()) isnt -1
+          $(this).slideDown()
+        else
+          $(this).slideUp()
