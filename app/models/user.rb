@@ -30,6 +30,10 @@ class User
     email.partition('@').first.gsub('.', ' ').titleize
   end
 
+  def label
+    name.split(' ').map(&:first).join
+  end
+
   def to_geojson
     """{
         type: 'Feature',

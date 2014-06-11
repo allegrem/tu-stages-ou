@@ -1,3 +1,3 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :name, :company, :coordinates
+  attributes :name, :company, :coordinates, :label
 end

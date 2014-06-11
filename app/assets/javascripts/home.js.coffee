@@ -19,13 +19,12 @@ $(document).ready ->
           type: 'Feature'
           properties:
             title: u.name + ' @ ' + u.company
-            'marker-size': 'large'
-            'marker-symbol': 'heart'
-            'marker-color': '#f39c12'
+            label: u.label
           geometry:
             type: 'Point'
             coordinates: u.coordinates
-      myLayer.setGeoJSON(geojson)
+      myLayer.setGeoJSON(geojson).eachLayer (marker) ->
+        marker.setIcon L.divIcon({ className: 'myMarker', html: marker.feature.properties.label, iconSize: [40,40] })
 
   myLayer.on 'mouseover', (e) -> e.layer.openPopup()
   myLayer.on 'mouseout', (e) -> e.layer.closePopup()
