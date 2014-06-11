@@ -9,7 +9,7 @@ class User
   field :latitude, type: Float
   field :longitude, type: Float
 
-  validates :email, presence: true, format: /\A[A-Z0-9._%+-]+@telecom-paristech.fr\Z/
+  validates :email, presence: true, format: /\A[a-zA-Z0-9._%+-]+@telecom\-paristech\.fr\Z/
   validates :company, presence: true
   validates :city, presence: true
   validates :country, presence: true

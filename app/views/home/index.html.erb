@@ -2,7 +2,7 @@
 
 <button id="open-form">+</button>
 
-<%= form_for @user, url: '#' do |f| %>
+<%= form_for @user, remote: true do |f| %>
   <div>
     <%= f.text_field :email, placeholder: "jean.dupont", class: "half-control" %>
     <small>@telecom-paristech.fr</small>
