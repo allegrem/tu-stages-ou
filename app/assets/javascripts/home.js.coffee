@@ -18,7 +18,7 @@ $(document).ready ->
       geojson = type: 'FeatureCollection', features: []
       for u in json.users
         userEntry = $("<div class=\"userEntry\" data-name=\"#{u.name}\"><strong>#{u.name}</strong>#{u.company} (#{u.city} - #{u.country})</div>")
-        $userList.append userEntry.hide()
+        $userList.prepend userEntry.hide()
 
         geojson.features.push
           type: 'Feature'

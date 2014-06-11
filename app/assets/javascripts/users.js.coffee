@@ -38,16 +38,21 @@ $(document).ready ->
 
 #search form
 $(document).ready ->
-  $form = $('#searchForm')
-  $form.focus()
+  $form = $('#searchForm').focus()
   $userList = $('#userList')
+  $moreResults = $userList.find('.moreResults').hide()
+
+  MAX_USER_ITEMS = 5
 
   $form.keyup ->
     if $form.val() is ""
       $('#userList .userEntry').hide()
     else
+      count = 0
       $('#userList .userEntry').each ->
         if $(this).data('name').toLowerCase().indexOf($form.val().toLowerCase()) isnt -1
-          $(this).slideDown()
+          if count < MAX_USER_ITEMS then $(this).slideDown() else $(this).slideUp()
+          count++
         else
           $(this).slideUp()
+      if count > MAX_USER_ITEMS then $moreResults.show().find('output').text(count-MAX_USER_ITEMS) else $moreResults.hide()
