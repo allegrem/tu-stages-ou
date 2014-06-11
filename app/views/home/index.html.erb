@@ -13,7 +13,9 @@
 <footer class="leaflet-control-attribution">Made with love in 802 - <a href="#">Fork me on GitHub</a></footer>
 
 
-<div id="map"></div>
-
-
-<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<div id="map">
+  <%= map(:center => {
+    :latlng => [30, 0],
+    :zoom => 3
+  }) %>
+</div>
