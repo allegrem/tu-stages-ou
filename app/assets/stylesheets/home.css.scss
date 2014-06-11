@@ -40,6 +40,15 @@ h1 {
   height: 1.2em;
   background-color: rgba(44,62,80,0.8);
   color: #ecf0f1;
+
+  &:focus {
+    outline: none;
+    background-color: rgba(44,62,80,0.6);
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 form {
@@ -64,6 +73,7 @@ form {
 
     &:focus {
       border-color: rgba(44,62,80,0.5);
+      outline: none;
     }
 
     &[type=submit] {

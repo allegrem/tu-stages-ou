@@ -17,10 +17,10 @@ $(document).ready ->
   $openForm = $('#open-form')
 
   $openForm.click ->
-    $form.fadeIn(500).find('input').first().focus()
-    $(this).fadeOut(500)
+    $form.fadeIn(300).find('input').first().focus()
+    $(this).fadeOut(300)
 
   $(document).keyup (e) ->
     if e.keyCode == 27
-      $form.fadeOut(500)
-      $openForm.fadeIn(500)
+      $form.fadeOut(300)
+      $openForm.fadeIn(300)
