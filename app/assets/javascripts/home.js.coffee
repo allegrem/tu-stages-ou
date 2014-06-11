@@ -18,7 +18,7 @@ $(document).ready ->
         geojson.features.push
           type: 'Feature'
           properties:
-            title: u.name
+            title: u.name + ' @ ' + u.company
             'marker-size': 'large'
             'marker-symbol': 'heart'
             'marker-color': '#f39c12'
