@@ -38,11 +38,11 @@ gem 'debugger', group: [:development, :test]
 
 gem 'active_model_serializers'
 
-gem 'leaflet-rails'
-gem 'geocoder'
-
 gem 'mongoid', '~> 4.0.0.rc1', github: 'mongoid/mongoid'
 gem 'bson_ext'
+
+gem 'leaflet-rails'
+gem 'geocoder'
 
 group :development do
   gem 'better_errors'

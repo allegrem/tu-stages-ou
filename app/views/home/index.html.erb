@@ -27,3 +27,14 @@
 <div id="map">
   <%= map center: { latlng: [30, 0], zoom: 3 } %>
 </div>
+
+
+
+<script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.js'></script>
+<link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.css' rel='stylesheet' />
+
+<script type="text/javascript">
+  var myLayer = L.mapbox.featureLayer().addTo(map);
+  var geojson = { type: 'FeatureCollection', features: [<%=raw @users.map(&:to_geojson).join(',') %>] };
+  myLayer.setGeoJSON(geojson);
+</script>
