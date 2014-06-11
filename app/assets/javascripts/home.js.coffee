@@ -28,16 +28,3 @@ $(document).ready ->
 
   myLayer.on 'mouseover', (e) -> e.layer.openPopup()
   myLayer.on 'mouseout', (e) -> e.layer.closePopup()
-
-
-  $form = $('#new_user')
-  $openForm = $('#open-form')
-
-  $openForm.click ->
-    $form.fadeIn(300).find('input:not([type=hidden])').first().focus()
-    $(this).fadeOut(300)
-
-  $(document).keyup (e) ->
-    if e.keyCode == 27
-      $form.fadeOut(300)
-      $openForm.fadeIn(300)

@@ -1,3 +1,84 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+#open-form {
+  position: absolute;
+  right: 0.5em;
+  top: 0.2em;
+  font-size: 5em;
+  z-index: 2;
+  border: none;
+  border-radius: 1em;
+  width: 1.2em;
+  height: 1.2em;
+  background-color: rgba(44,62,80,0.8);
+  color: #ecf0f1;
+
+  &:focus {
+    outline: none;
+    background-color: rgba(44,62,80,0.6);
+  }
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(44,62,80,0.7);
+  }
+}
+
+form {
+  display: none;
+  position: absolute;
+  right: 3em;
+  top: 0.5em;
+  z-index: 1;
+  background-color: rgba(255,255,255,0.7);
+  border-radius: 1em;
+  min-width: 20%;
+
+  input {
+    margin: 0.5em;
+    width: 90%;
+    border: solid rgba(44,62,80,0.2) 1px;
+    border-radius: 0.3em;
+    padding: 0.2em;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.5em;
+
+    &:focus {
+      border-color: rgba(44,62,80,0.5);
+      outline: none;
+    }
+
+    &[type=submit] {
+      width: 93%;
+      background-color: rgb(44,62,80);
+      color: #ecf0f1;
+      font-size: 1.7em;
+
+      &:focus, &:hover {
+        background-color: rgb(74,92,110);
+      }
+
+      &.disabled {
+        background-color: rgb(200,200,200);
+      }
+    }
+
+    &.half-control {
+      width: 50%;
+    }
+  }
+
+  small {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2em;
+  }
+
+  .errors {
+    font-size: 1.4em;
+    color: #C0392B;
+    font-weight: 300;
+  }
+}

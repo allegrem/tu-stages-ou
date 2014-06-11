@@ -5,8 +5,12 @@ class UsersController < ApplicationController
   end
 
   def create
-    User.create! user_params
-    render nothing: true, status: :created
+    @user = User.new user_params
+    if @user.save
+      render nothing: true, status: :created
+    else
+      render json: @user.errors.full_messages, status: :unprocessable_entity
+    end
   end
 
   def destroy
