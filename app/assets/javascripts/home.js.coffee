@@ -4,13 +4,11 @@
 
 
 $(document).ready ->
-#  map.zoomControl.removeFrom(map)
-
-  $form = $('form')
+  $form = $('#new_user')
   $openForm = $('#open-form')
 
   $openForm.click ->
-    $form.fadeIn(300).find('input').first().focus()
+    $form.fadeIn(300).find('input:not([type=hidden])').first().focus()
     $(this).fadeOut(300)
 
   $(document).keyup (e) ->
