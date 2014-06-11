@@ -9,12 +9,17 @@ $(document).ready ->
 
   myLayer = L.mapbox.featureLayer().addTo(map)
 
+  $userList = $('#userList')
+
   $.ajax
     dataType: 'json'
     url: '/users'
     success: (json) ->
+      document.usersJSON = json
       geojson = type: 'FeatureCollection', features: []
       for u in json.users
+        $userList.append "<div class=\"userEntry\"><strong>#{u.name}</strong>#{u.company} (#{u.city} - #{u.country})</div>"
+
         geojson.features.push
           type: 'Feature'
           properties:

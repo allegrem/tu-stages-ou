@@ -2,6 +2,8 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+
+#new user form
 $(document).ready ->
   $form = $('#new_user')
   $openForm = $('#open-form')
@@ -32,3 +34,12 @@ $(document).ready ->
     err_html += '</ul>'
     $form.find('.errors').html err_html
     $form.find('input:not([type=hidden])').first().focus()
+
+
+#search form
+$(document).ready ->
+  $form = $('#searchForm')
+
+  # $form.keyup ->
+  #   for u in document.usersJSON
+  #     
