@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '2.1.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
@@ -43,6 +44,8 @@ gem 'mongoid', '~> 4.0.0.rc1', github: 'mongoid/mongoid'
 gem 'bson_ext'
 
 gem 'geocoder'
+
+gem 'rails_12factor'
 
 group :development do
   gem 'better_errors'
