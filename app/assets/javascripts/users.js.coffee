@@ -62,8 +62,8 @@ $(document).ready ->
               if count < MAX_USER_ITEMS
                 $(this).slideDown().addClass 'visible'
               else
-                $(this).slideUp()
+                $(this).slideUp().removeClass 'visible'
               count++
             else
-              $(this).slideUp()
+              $(this).slideUp().removeClass 'visible'
           if count > MAX_USER_ITEMS then $moreResults.show().find('output').text(count-MAX_USER_ITEMS) else $moreResults.hide()

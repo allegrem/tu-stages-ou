@@ -35,6 +35,13 @@ class Map
         html: marker.feature.properties.label
         iconSize: [40, 40]
 
+  focusOn: (name) ->
+    @myLayer.eachLayer (marker) =>
+      if marker.feature.properties.title.toLowerCase().indexOf((name+' @').toLowerCase()) is 0
+        marker.openPopup()
+        @map.setView marker.getLatLng(), 13
+
+
 
 $(document).ready ->
   document.myMap = new Map()
@@ -49,13 +56,9 @@ $(document).ready ->
 
         userEntry = $("<div class=\"userEntry\" data-name=\"#{u.name}\"><strong>#{u.name}</strong>#{u.company} (#{u.city} - #{u.country})</div>")
         $userList.prepend userEntry.hide()
-
         userEntry.click ->
-          $this = $(this)
-          myLayer.eachLayer (marker) ->
-            if marker.feature.properties.title.toLowerCase().indexOf(($this.data('name')+' @').toLowerCase()) is 0
-              marker.openPopup()
-              map.setView marker.getLatLng(), 13
+          document.myMap.focusOn $(this).data('name')
           $('#userList .userEntry').hide()
-          $('#searchForm').val $this.data('name')
+          $('#searchForm').val $(this).data('name')
+
       document.myMap.refresh()
