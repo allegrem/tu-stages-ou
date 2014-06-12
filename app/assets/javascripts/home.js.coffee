@@ -60,5 +60,6 @@ $(document).ready ->
           document.myMap.focusOn $(this).data('name')
           $('#userList .userEntry').hide()
           $('#searchForm').val $(this).data('name')
+          ga 'send', 'event', 'searchForm', 'userEntryClick'
 
       document.myMap.refresh()

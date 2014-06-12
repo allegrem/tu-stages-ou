@@ -16,17 +16,20 @@ $(document).ready ->
   $openForm.click ->
     $form.fadeIn(300).find('input:not([type=hidden])').first().focus()
     $(this).fadeOut(300)
+    ga 'send', 'event', 'newUserForm', 'open'
 
   $form.keyup (e) ->
     closeForm()  if e.keyCode == 27
 
   $form.submit ->
     $submitButton.addClass('disabled').val('Envoi...')
+    ga 'send', 'event', 'newUserForm', 'submit'
 
   $form.on 'ajax:success', (data, status, xhr) ->
     closeForm()
     $openForm.hide()
     document.myMap.add status.user, refresh: true, animate: true
+    ga 'send', 'event', 'newUserForm', 'success'
 
   $form.on 'ajax:error', (xhr, status) ->
     $submitButton.removeClass('disabled').val('Envoyer')
@@ -35,6 +38,7 @@ $(document).ready ->
     err_html += '</ul>'
     $form.find('.errors').html err_html
     $form.find('input:not([type=hidden])').first().focus()
+    ga 'send', 'event', 'newUserForm', 'error'
 
 
 #search form
