@@ -3,20 +3,44 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 
+class Map
+  constructor: ->
+    @map = L.mapbox.map('map', 'allegrem.ifmbko0h').setView([30,0], 3)
+    @map.zoomControl.removeFrom(@map)
+
+    @myLayer = L.mapbox.featureLayer().addTo(@map)
+    @myLayer.on 'mouseover', (e) -> e.layer.openPopup()
+    @myLayer.on 'mouseout', (e) -> e.layer.closePopup()
+
+    @geojson = type: 'FeatureCollection', features: []
+
+  add: (user, opts={}) ->
+    @geojson.features.push
+      type: 'Feature'
+      properties:
+        title: user.name + ' @ ' + user.company
+        label: user.label
+      geometry:
+        type: 'Point'
+        coordinates: user.coordinates
+    @refresh()  if opts.refresh
+
+  refresh: ->
+    @myLayer.setGeoJSON(@geojson).eachLayer (marker) ->
+      marker.setIcon L.divIcon({ className: 'myMarker', html: marker.feature.properties.label, iconSize: [40,40] })
+
+
 $(document).ready ->
-  map = L.mapbox.map('map', 'allegrem.ifmbko0h').setView([30,0], 3)
-  map.zoomControl.removeFrom(map)
-
-  myLayer = L.mapbox.featureLayer().addTo(map)
-
+  document.myMap = new Map()
   $userList = $('#userList')
 
   $.ajax
     dataType: 'json'
     url: '/users'
     success: (json) ->
-      geojson = type: 'FeatureCollection', features: []
       for u in json.users
+        document.myMap.add u
+
         userEntry = $("<div class=\"userEntry\" data-name=\"#{u.name}\"><strong>#{u.name}</strong>#{u.company} (#{u.city} - #{u.country})</div>")
         $userList.prepend userEntry.hide()
 
@@ -28,17 +52,4 @@ $(document).ready ->
               map.setView marker.getLatLng(), 13
           $('#userList .userEntry').hide()
           $('#searchForm').val $this.data('name')
-
-        geojson.features.push
-          type: 'Feature'
-          properties:
-            title: u.name + ' @ ' + u.company
-            label: u.label
-          geometry:
-            type: 'Point'
-            coordinates: u.coordinates
-      myLayer.setGeoJSON(geojson).eachLayer (marker) ->
-        marker.setIcon L.divIcon({ className: 'myMarker', html: marker.feature.properties.label, iconSize: [40,40] })
-
-  myLayer.on 'mouseover', (e) -> e.layer.openPopup()
-  myLayer.on 'mouseout', (e) -> e.layer.closePopup()
+      document.myMap.refresh()

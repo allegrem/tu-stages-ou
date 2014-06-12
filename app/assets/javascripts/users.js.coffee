@@ -23,9 +23,10 @@ $(document).ready ->
   $form.submit ->
     $submitButton.addClass('disabled').val('Envoi...')
 
-  $form.on 'ajax:success', ->
+  $form.on 'ajax:success', (data, status, xhr) ->
     closeForm()
     $openForm.hide()
+    document.myMap.add status.user, refresh: true
 
   $form.on 'ajax:error', (xhr, status) ->
     $submitButton.removeClass('disabled').val('Envoyer')
