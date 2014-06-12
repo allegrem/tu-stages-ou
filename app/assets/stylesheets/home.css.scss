@@ -30,6 +30,12 @@ h1 {
   text-align: center;
 }
 
+@media screen and (max-width: 1400px) {
+  h1 {
+    font-size: 1.7em;
+  }
+}
+
 footer {
   position: absolute;
   padding: 0.2em;
