@@ -15,19 +15,25 @@ class Map
     @geojson = type: 'FeatureCollection', features: []
 
   add: (user, opts={}) ->
-    @geojson.features.push
+    f =
       type: 'Feature'
       properties:
         title: user.name + ' @ ' + user.company
         label: user.label
+        className: 'myMarker'
       geometry:
         type: 'Point'
         coordinates: user.coordinates
+    f.properties.className += ' animate'  if opts.animate
+    @geojson.features.push f
     @refresh()  if opts.refresh
 
   refresh: ->
     @myLayer.setGeoJSON(@geojson).eachLayer (marker) ->
-      marker.setIcon L.divIcon({ className: 'myMarker', html: marker.feature.properties.label, iconSize: [40,40] })
+      marker.setIcon L.divIcon
+        className: marker.feature.properties.className
+        html: marker.feature.properties.label
+        iconSize: [40, 40]
 
 
 $(document).ready ->

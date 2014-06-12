@@ -57,4 +57,19 @@ footer {
   text-align: center;
   border-radius: 50%;
   line-height: 30px;
+
+  &.animate {
+    background: #8e44ad;
+    @include animation(appear 2s);
+  }
+}
+
+
+@include keyframes(appear) {
+  from {
+    background: lighten(#8e44ad, 30%);
+  }
+  to {
+    background: #8e44ad;
+  }
 }
