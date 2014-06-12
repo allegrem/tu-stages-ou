@@ -17,7 +17,7 @@ $(document).ready ->
     $form.fadeIn(300).find('input:not([type=hidden])').first().focus()
     $(this).fadeOut(300)
 
-  $(document).keyup (e) ->
+  $form.keyup (e) ->
     closeForm()  if e.keyCode == 27
 
   $form.submit ->
@@ -44,15 +44,25 @@ $(document).ready ->
 
   MAX_USER_ITEMS = 5
 
-  $form.keyup ->
-    if $form.val() is ""
-      $('#userList .userEntry').hide()
-    else
-      count = 0
-      $('#userList .userEntry').each ->
-        if $(this).data('name').toLowerCase().indexOf($form.val().toLowerCase()) isnt -1
-          if count < MAX_USER_ITEMS then $(this).slideDown() else $(this).slideUp()
-          count++
+  $form.keyup (e) ->
+    switch e.keyCode
+      when 13
+        $('#userList .userEntry.visible').first().click()
+      when 27
+        $form.val ''
+        $('#userList .userEntry').hide()
+      else
+        if $form.val() is ""
+          $('#userList .userEntry').hide()
         else
-          $(this).slideUp()
-      if count > MAX_USER_ITEMS then $moreResults.show().find('output').text(count-MAX_USER_ITEMS) else $moreResults.hide()
+          count = 0
+          $('#userList .userEntry').each ->
+            if $(this).data('name').toLowerCase().indexOf($form.val().toLowerCase()) isnt -1
+              if count < MAX_USER_ITEMS
+                $(this).slideDown().addClass 'visible'
+              else
+                $(this).slideUp()
+              count++
+            else
+              $(this).slideUp()
+          if count > MAX_USER_ITEMS then $moreResults.show().find('output').text(count-MAX_USER_ITEMS) else $moreResults.hide()
