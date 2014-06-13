@@ -5,7 +5,7 @@
 
 class Map
   constructor: ->
-    @map = L.mapbox.map('map', 'allegrem.ifmbko0h').setView([30,0], 3)
+    @map = L.mapbox.map('map', 'allegrem.ifmbko0h', {minZoom: 3, worldCopyJump: true}).setView([18,13], 3)
     @map.zoomControl.removeFrom(@map)
 
     @myLayer = L.mapbox.featureLayer().addTo(@map)
