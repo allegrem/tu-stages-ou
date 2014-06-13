@@ -62,7 +62,7 @@ $(document).ready ->
         else
           count = 0
           $('#userList .userEntry').each ->
-            if $(this).data('name').toLowerCase().indexOf($form.val().toLowerCase()) isnt -1
+            if removeDiacritics($(this).data('name').toLowerCase()).indexOf(removeDiacritics($form.val().toLowerCase())) isnt -1
               if count < MAX_USER_ITEMS
                 $(this).slideDown().addClass 'visible'
               else
