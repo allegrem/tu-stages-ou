@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
-  resources :users, only: [:index, :create]
+  resources :users, only: [:index, :create] do
+    member do
+      get 'destroy', as: 'destroy'
+    end
+  end
 
   get 'home/index'
 
