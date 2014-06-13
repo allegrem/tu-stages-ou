@@ -68,6 +68,10 @@ footer {
     background: #8e44ad;
     @include animation(appear 2s);
   }
+
+  &.multi {
+    background: #d35400;
+  }
 }
 
 

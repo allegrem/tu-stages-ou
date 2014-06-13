@@ -15,18 +15,33 @@ class Map
 
     @geojson = type: 'FeatureCollection', features: []
 
+  _generateGeoJSON: (user) ->
+    sameMarker = @geojson.features.filter (u) ->
+      u.geometry.coordinates[0] is user.coordinates[0] and u.geometry.coordinates[1] is user.coordinates[1]
+    if sameMarker.length is 0
+      {
+        type: 'Feature'
+        properties:
+          title: user.name + ' @ ' + user.company
+          label: user.label
+          className: 'myMarker'
+        geometry:
+          type: 'Point'
+          coordinates: user.coordinates
+      }
+    else
+      sameMarker = sameMarker[0]
+      if sameMarker.properties.className.indexOf 'multi' is -1
+        sameMarker.properties.label = 1
+        sameMarker.properties.className += ' multi'
+      sameMarker.properties.label += 1
+      sameMarker.properties.title += '<br />' + user.name + ' @ ' + user.company
+      sameMarker
+
   add: (user, opts={}) ->
-    f =
-      type: 'Feature'
-      properties:
-        title: user.name + ' @ ' + user.company
-        label: user.label
-        className: 'myMarker'
-      geometry:
-        type: 'Point'
-        coordinates: user.coordinates
+    f = @_generateGeoJSON user
     f.properties.className += ' animate'  if opts.animate
-    @geojson.features.push f
+    @geojson.features.push f  if f.properties.className.indexOf('multi') is -1
     @refresh()  if opts.refresh
 
   refresh: ->
@@ -38,7 +53,7 @@ class Map
 
   focusOn: (name) ->
     @myLayer.eachLayer (marker) =>
-      if marker.feature.properties.title.toLowerCase().indexOf((name+' @').toLowerCase()) is 0
+      if marker.feature.properties.title.toLowerCase().indexOf((name+' @').toLowerCase()) isnt -1
         marker.openPopup()
         @map.setView marker.getLatLng(), 13
 
