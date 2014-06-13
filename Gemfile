@@ -47,6 +47,8 @@ gem 'geocoder'
 
 gem 'rails_12factor'
 
+gem 'postmark-rails', '~> 0.8.0'
+
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'

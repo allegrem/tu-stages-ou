@@ -11,7 +11,6 @@ class UsersController < ApplicationController
     @user = User.where(email: user_params[:email]).first || User.new
     new_user = @user.id.nil?
     @user.assign_attributes user_params
-    puts @user.inspect
     if @user.save
       UserMailer.welcome(@user).deliver  if new_user
       render json: @user, status: :created
