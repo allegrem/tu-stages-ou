@@ -34,26 +34,6 @@ class User
     name.split(' ').map(&:first).join
   end
 
-  def to_geojson
-    """{
-        type: 'Feature',
-        properties: {
-            title: '#{name} @ #{company}',
-            'marker-color': '#f39c12',
-            'marker-size': 'large',
-            'marker-symbol': 'heart'
-        },
-        geometry: {
-            type: 'Point',
-            coordinates: #{coordinates}
-        },
-        attributes: {
-          name: '#{name}',
-          company: '#{company}'
-        }
-    }"""
-  end
-
 
   private
 
