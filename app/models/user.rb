@@ -10,12 +10,13 @@ class User
 
   include Geocoder::Model::Mongoid
   geocoded_by :address
-  after_validation :geocode, if: ->(obj){ obj.address.present? and obj.address_changed? }
+  # after_validation :try_geocode
 
   validates :email, presence: true, format: /\A[a-zA-Z0-9._%+-]+@telecom\-paristech\.fr\Z/, uniqueness: true
   validates :company, presence: true
   validates :city, presence: true
   validates :country, presence: true
+  validate :geocode_coordinates
 
 
   def address
@@ -52,6 +53,15 @@ class User
           company: '#{company}'
         }
     }"""
+  end
+
+
+  private
+
+  def geocode_coordinates
+    if address.present? and address_changed?
+      errors.add :address, 'was not found'  unless geocode
+    end
   end
 
 end
