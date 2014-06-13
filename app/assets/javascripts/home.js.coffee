@@ -11,6 +11,7 @@ class Map
     @myLayer = L.mapbox.featureLayer().addTo(@map)
     @myLayer.on 'mouseover', (e) -> e.layer.openPopup()
     @myLayer.on 'mouseout', (e) -> e.layer.closePopup()
+    @myLayer.on 'click', (e) => @map.panTo e.layer.getLatLng()
 
     @geojson = type: 'FeatureCollection', features: []
 
