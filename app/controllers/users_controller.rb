@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   def create
     params[:user][:email] += '@telecom-paristech.fr'  if params[:user][:email]
     @user = User.where(email: user_params[:email]).first || User.new
-    new_user = @user.id.nil?
+    new_user = @user.coordinates.nil?
     @user.assign_attributes user_params
     if @user.save
       UserMailer.welcome(@user).deliver  if new_user
