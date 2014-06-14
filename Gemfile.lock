@@ -96,6 +96,7 @@ GEM
       connection_pool (~> 2.0)
       optionable (~> 0.2.0)
     multi_json (1.10.1)
+    newrelic_rpm (3.8.1.221)
     optionable (0.2.0)
     origin (2.1.1)
     polyglot (0.3.5)
@@ -189,6 +190,7 @@ DEPENDENCIES
   jquery-rails
   meta_request
   mongoid (~> 4.0.0.rc1)!
+  newrelic_rpm
   postmark-rails (~> 0.8.0)
   rails (= 4.1.1)
   rails_12factor

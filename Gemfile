@@ -45,9 +45,11 @@ gem 'bson_ext'
 
 gem 'geocoder'
 
-gem 'rails_12factor'
-
-gem 'postmark-rails', '~> 0.8.0'
+group :production do
+  gem 'rails_12factor'
+  gem 'postmark-rails', '~> 0.8.0'
+  gem 'newrelic_rpm'
+end
 
 group :development do
   gem 'better_errors'
