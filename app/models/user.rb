@@ -8,22 +8,15 @@ class User
   field :country
   field :coordinates, :type => Array
 
-  include Geocoder::Model::Mongoid
-  geocoded_by :address
-
   validates :email, presence: true, format: /\A[a-zA-Z0-9._%+-]+@telecom\-paristech\.fr\Z/, uniqueness: true
   validates :company, presence: true
   validates :city, presence: true
   validates :country, presence: true
-  validate :geocode_coordinates
+  validate :coordinates_validator
 
 
   def address
     [city, country].join ', '
-  end
-
-  def address_changed?
-    country_changed? || city_changed?
   end
 
   def name
@@ -34,12 +27,16 @@ class User
     name.split(' ').map(&:first).join
   end
 
+  def coordinates_str= (str)
+    self.coordinates = str.split(',').map do |n| n.to_f end
+  end
+
 
   private
 
-  def geocode_coordinates
-    if address.present? and address_changed?
-      errors.add :address, 'was not found'  unless geocode
+  def coordinates_validator
+    unless coordinates.length == 2 && coordinates[0].class == Float && coordinates[1].class == Float
+      errors.add :coordinates, 'must be a couple of float'
     end
   end
 

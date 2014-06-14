@@ -22,6 +22,9 @@
     <%= f.text_field :country, placeholder: "USA" %>
   </div>
   <div>
+    <%= f.hidden_field :coordinates %>
+  </div>
+  <div>
     <%= f.submit 'Envoyer' %>
   </div>
   <div class="errors"></div>

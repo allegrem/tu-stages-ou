@@ -8,10 +8,17 @@ $(document).ready ->
   $form = $('#new_user')
   $openForm = $('#open-form')
   $submitButton = $form.find('input[type=submit]')
+  $userCoordinates = $('#user_coordinates')
 
   closeForm = ->
     $form.fadeOut(300)
     $openForm.fadeIn(300)
+
+  showErrors = (errors) ->
+    err_html = '<ul>'
+    err_html += "<li>#{e}</li>" for e in errors
+    err_html += '</ul>'
+    $form.find('.errors').html err_html
 
   $openForm.click ->
     $form.fadeIn(300).find('input:not([type=hidden])').first().focus()
@@ -21,9 +28,22 @@ $(document).ready ->
   $form.keyup (e) ->
     closeForm()  if e.keyCode == 27
 
-  $form.submit ->
-    $submitButton.addClass('disabled').val('Envoi...')
-    ga 'send', 'event', 'newUserForm', 'submit'
+  $form.on 'submit', (e) ->
+    if $userCoordinates.val() is ''
+      $submitButton.addClass('disabled').val('Envoi...')
+      address = "#{$('#user_city').val()} #{$('#user_country').val()}"
+      $.ajax url: "http://maps.googleapis.com/maps/api/geocode/json?address=#{address}"
+        .success (res) ->
+          if res.results.length is 0
+            showErrors ['The address is invalid.']
+            $submitButton.removeClass('disabled').val('Envoyer')
+          else
+            location = res.results[0].geometry.location
+            $userCoordinates.val "#{location.lng},#{location.lat}"
+            $form.submit()
+      return false
+    else
+      ga 'send', 'event', 'newUserForm', 'submit'
 
   $form.on 'ajax:success', (data, status, xhr) ->
     closeForm()
@@ -33,10 +53,8 @@ $(document).ready ->
 
   $form.on 'ajax:error', (xhr, status) ->
     $submitButton.removeClass('disabled').val('Envoyer')
-    err_html = '<ul>'
-    err_html += "<li>#{e}</li>" for e in status.responseJSON.users
-    err_html += '</ul>'
-    $form.find('.errors').html err_html
+    showErrors status.responseJSON.users
+    $userCoordinates.val ''
     $form.find('input:not([type=hidden])').first().focus()
     ga 'send', 'event', 'newUserForm', 'error'
 

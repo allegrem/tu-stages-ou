@@ -67,7 +67,7 @@ class Map
 
   updateOrAdd: (user, opts={}) ->
     prevUser = @geojson.features.findIndex (u) -> u.properties.title.indexOf(user.name) isnt -1
-    @geojson.features.splice prevUser, 1  if prevUser
+    @geojson.features.splice prevUser, 1  if prevUser isnt -1
     @add user, opts
 
 

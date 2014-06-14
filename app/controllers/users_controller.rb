@@ -11,6 +11,7 @@ class UsersController < ApplicationController
     @user = User.where(email: user_params[:email]).first || User.new
     new_user = @user.coordinates.nil?
     @user.assign_attributes user_params
+    @user.coordinates_str = params[:user][:coordinates]  if params[:user][:coordinates]
     if @user.save
       UserMailer.welcome(@user).deliver  if new_user
       render json: @user, status: (new_user ? :created : :ok)

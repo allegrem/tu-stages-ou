@@ -43,8 +43,6 @@ gem 'active_model_serializers'
 gem 'mongoid', '~> 4.0.0.rc1', github: 'mongoid/mongoid'
 gem 'bson_ext'
 
-gem 'geocoder'
-
 group :production do
   gem 'rails_12factor'
   gem 'postmark-rails', '~> 0.8.0'
