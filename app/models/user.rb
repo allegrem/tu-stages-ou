@@ -23,7 +23,7 @@ class User
   end
 
   def address_changed?
-    country_changed? && city_changed?
+    country_changed? || city_changed?
   end
 
   def name
