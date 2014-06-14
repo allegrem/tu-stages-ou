@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @user.assign_attributes user_params
     if @user.save
       UserMailer.welcome(@user).deliver  if new_user
-      render json: @user, status: :created
+      render json: @user, status: (new_user ? :created : :ok)
     else
       render json: @user.errors.full_messages, status: :unprocessable_entity
     end

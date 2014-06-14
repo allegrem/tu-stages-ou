@@ -16,9 +16,16 @@ class Map
     @geojson = type: 'FeatureCollection', features: []
 
   _generateGeoJSON: (user) ->
-    sameMarker = @geojson.features.filter (u) ->
+    sameMarker = @geojson.features.find (u) ->
       u.geometry.coordinates[0] is user.coordinates[0] and u.geometry.coordinates[1] is user.coordinates[1]
-    if sameMarker.length is 0
+    if sameMarker
+      if sameMarker.properties.className.indexOf 'multi' is -1
+        sameMarker.properties.label = 1
+        sameMarker.properties.className += ' multi'
+      sameMarker.properties.label += 1
+      sameMarker.properties.title += '<br />' + user.name + ' @ ' + user.company
+      return sameMarker
+    else
       {
         type: 'Feature'
         properties:
@@ -29,20 +36,14 @@ class Map
           type: 'Point'
           coordinates: user.coordinates
       }
-    else
-      sameMarker = sameMarker[0]
-      if sameMarker.properties.className.indexOf 'multi' is -1
-        sameMarker.properties.label = 1
-        sameMarker.properties.className += ' multi'
-      sameMarker.properties.label += 1
-      sameMarker.properties.title += '<br />' + user.name + ' @ ' + user.company
-      sameMarker
 
   add: (user, opts={}) ->
     f = @_generateGeoJSON user
     f.properties.className += ' animate'  if opts.animate
     @geojson.features.push f  if f.properties.className.indexOf('multi') is -1
-    @refresh()  if opts.refresh
+    if opts.refresh
+      @refresh()
+      @focusOn user.name
 
   refresh: ->
     @myLayer.setGeoJSON(@geojson).eachLayer (marker) ->
@@ -52,11 +53,22 @@ class Map
         iconSize: [40, 40]
 
   focusOn: (name) ->
-    @myLayer.eachLayer (marker) =>
-      if marker.feature.properties.title.toLowerCase().indexOf((name+' @').toLowerCase()) isnt -1
-        marker.openPopup()
-        @map.setView marker.getLatLng(), 13
+    marker = @_findMarker name
+    if marker
+      marker.openPopup()
+      @map.setView marker.getLatLng(), 13
 
+  _findMarker: (name) ->
+    foundMarker = null
+    @myLayer.eachLayer (marker) ->
+      if marker.feature.properties.title.toLowerCase().indexOf((name+' @').toLowerCase()) isnt -1
+        foundMarker = marker
+    return foundMarker
+
+  updateOrAdd: (user, opts={}) ->
+    prevUser = @geojson.features.findIndex (u) -> u.properties.title.indexOf(user.name) isnt -1
+    @geojson.features.splice prevUser, 1  if prevUser
+    @add user, opts
 
 
 $(document).ready ->

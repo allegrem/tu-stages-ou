@@ -28,7 +28,7 @@ $(document).ready ->
   $form.on 'ajax:success', (data, status, xhr) ->
     closeForm()
     $openForm.hide()
-    document.myMap.add status.user, refresh: true, animate: true
+    document.myMap.updateOrAdd status.user, refresh: true, animate: true
     ga 'send', 'event', 'newUserForm', 'success'
 
   $form.on 'ajax:error', (xhr, status) ->
