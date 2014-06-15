@@ -66,6 +66,8 @@ $(document).ready ->
   $userList = $('#userList')
   $moreResults = $userList.find('.moreResults').hide()
 
+  $form.val ''
+
   MAX_USER_ITEMS = 5
 
   $form.keyup (e) ->
