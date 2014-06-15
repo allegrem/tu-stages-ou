@@ -95,6 +95,13 @@ input {
   padding: 0.2em 1%;
 }
 
+@media screen and (max-width: 1400px) {
+  #searchForm {
+    top: 4.5em;
+    font-size: 1.1em;
+  }
+}
+
 #userList {
   position: absolute;
   top: 10.5em;
