@@ -80,9 +80,11 @@ $(document).ready ->
       when 27
         $form.val ''
         $('#userList .userEntry').hide()
+        $moreResults.hide()
       else
         if $form.val() is ""
           $('#userList .userEntry').hide()
+          $moreResults.hide()
         else
           count = 0
           $('#userList .userEntry').each ->
