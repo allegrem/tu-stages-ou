@@ -9,22 +9,25 @@ $(document).ready ->
   $openForm = $('#open-form')
   $submitButton = $form.find('input[type=submit]')
   $userCoordinates = $('#user_coordinates_str')
+  eventCategory = if $('.edit_user').length is 0 then 'newUserForm' else 'editUserForm'
 
   closeForm = ->
     $form.fadeOut(300)
     $openForm.fadeIn(300)
+    ga 'send', 'event', eventCategory, 'close'
 
   showErrors = (errors) ->
     err_html = '<ul>'
     err_html += "<li>#{e}</li>" for e in errors
     err_html += '</ul>'
     $form.find('.errors').html err_html
+    ga 'send', 'event', eventCategory, 'error', errors.join(' ; ')
 
   openForm = ->
     $form.fadeIn(300).find('input:not([type=hidden])').first().focus()
     $openForm.fadeOut(300)
     $userCoordinates.val ''
-    ga 'send', 'event', 'newUserForm', 'open'
+    ga 'send', 'event', eventCategory, 'open'
 
   openForm()  if $form.find('#token').val() isnt ''
 
@@ -44,23 +47,21 @@ $(document).ready ->
           else
             location = res.results[0].geometry.location
             $userCoordinates.val "#{location.lng},#{location.lat}"
+            ga 'send', 'event', eventCategory, 'submit'
             $form.submit()
       return false
-    else
-      ga 'send', 'event', 'newUserForm', 'submit'
 
   $form.on 'ajax:success', (data, status, xhr) ->
     closeForm()
     $openForm.hide()
     document.myMap.updateOrAdd status.user, refresh: true, animate: true
-    ga 'send', 'event', 'newUserForm', 'success'
+    ga 'send', 'event', eventCategory, 'success'
 
   $form.on 'ajax:error', (xhr, status) ->
     $submitButton.removeClass('disabled').val('Envoyer')
     showErrors status.responseJSON.users
     $userCoordinates.val ''
     $form.find('input:not([type=hidden])').first().focus()
-    ga 'send', 'event', 'newUserForm', 'error'
 
 
 #search form

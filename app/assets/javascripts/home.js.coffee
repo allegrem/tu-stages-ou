@@ -88,6 +88,6 @@ $(document).ready ->
           document.myMap.focusOn $(this).data('name')
           $('#userList .userEntry').hide()
           $('#searchForm').val $(this).data('name')
-          ga 'send', 'event', 'searchForm', 'userEntryClick'
+          ga 'send', 'event', 'searchForm', 'userEntryClick', $(this).data('name')
 
       document.myMap.refresh()
