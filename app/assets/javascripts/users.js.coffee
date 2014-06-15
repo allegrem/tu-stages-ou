@@ -23,6 +23,7 @@ $(document).ready ->
   $openForm.click ->
     $form.fadeIn(300).find('input:not([type=hidden])').first().focus()
     $(this).fadeOut(300)
+    $userCoordinates.val ''
     ga 'send', 'event', 'newUserForm', 'open'
 
   $form.keyup (e) ->
