@@ -6,6 +6,10 @@
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+  <meta property="og:title" content="Tu stages où ?" />
+  <meta property="og:url" content="<%= root_url %>" />
+  <meta property="og:description" content="Retrouve tes amis en stage !" />
+  <meta property="og:image" content="<%= image_url 'screenshot.png' %>" />
 </head>
 <body>
 
