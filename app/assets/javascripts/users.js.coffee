@@ -26,7 +26,7 @@ $(document).ready ->
     $userCoordinates.val ''
     ga 'send', 'event', 'newUserForm', 'open'
 
-  openForm()  if $form.find('#id').val() isnt ''
+  openForm()  if $form.find('#token').val() isnt ''
 
   $openForm.click openForm
 

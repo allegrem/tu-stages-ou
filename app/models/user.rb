@@ -7,12 +7,17 @@ class User
   field :city
   field :country
   field :coordinates, :type => Array
+  field :token
+
+  index({ token: 1 }, { unique: true, name: "token_index" })
 
   validates :login, presence: true, format: /\A[a-zA-Z0-9._%+-]+\Z/, uniqueness: true
   validates :company, presence: true
   validates :city, presence: true
   validates :country, presence: true
   validate :coordinates_validator
+
+  before_create :generate_token
 
 
   def address
@@ -35,12 +40,23 @@ class User
     login + '@telecom-paristech.fr'
   end
 
+  def self.exists? (cond)
+    self.where(cond).count > 0
+  end
+
 
   private
 
   def coordinates_validator
     unless coordinates.length == 2 && coordinates[0].class == Float && coordinates[1].class == Float
       errors.add :coordinates, 'must be a couple of float'
+    end
+  end
+
+  def generate_token
+    self.token = loop do
+      random_token = SecureRandom.urlsafe_base64(nil, false)
+      break random_token unless self.class.exists?(token: random_token)
     end
   end
 

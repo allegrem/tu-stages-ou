@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 
   respond_to :json
+  before_filter :find_user, only: [:update, :destroy]
 
   def index
     render json: User.all
@@ -17,7 +18,6 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user = User.find params[:id]
     if @user.update user_params
       render json: @user, status: :ok
     else
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
+    @user.destroy
     redirect_to root_path, notice: "Ton marqueur a bien été supprimé."
   end
 
@@ -35,6 +35,10 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit [:login, :country, :city, :company, :coordinates_str]
+  end
+
+  def find_user
+    @user = User.find_by token: params[:token]
   end
 
 end

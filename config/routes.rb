@@ -1,10 +1,8 @@
 Rails.application.routes.draw do
 
-  resources :users, only: [:index, :create, :update] do
-    member do
-      get 'destroy', as: 'destroy'
-    end
-  end
+  resources :users, only: [:index, :create, :update]
+
+  get 'users/:token/destroy' => 'users#destroy', as: 'destroy_user'
 
   get 'home/index'
 

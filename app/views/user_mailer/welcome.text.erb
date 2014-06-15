@@ -6,9 +6,9 @@ Nom : <%= @user.name %>
 Entreprise : <%= @user.company %>
 Adresse : <%= @user.address %>
 
-Pour modifier ces informations, rends-toi sur <%= root_url id: @user.id %>.
+Pour modifier ces informations, rends-toi sur <%= root_url token: @user.token %>
 
-Si jamais tu n'es pas à l'origine de cette inscription, tu peux supprimer ton compte en visitant l'adresse suivante : <%= destroy_user_url @user %>
+Si jamais tu n'es pas à l'origine de cette inscription, tu peux supprimer ton compte en visitant l'adresse suivante : <%= destroy_user_url @user.token %>
 
 
 A bientôt sur <%= root_url %> !
