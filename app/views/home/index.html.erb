@@ -9,7 +9,7 @@
 
 <%= form_for @user, remote: true do |f| %>
   <div>
-    <%= f.text_field :email, placeholder: "jean.dupont", class: "half-control" %>
+    <%= f.text_field :login, placeholder: "jean.dupont", class: "half-control" %>
     <small>@telecom-paristech.fr</small>
   </div>
   <div>
@@ -22,7 +22,10 @@
     <%= f.text_field :country, placeholder: "USA" %>
   </div>
   <div>
-    <%= f.hidden_field :coordinates %>
+    <%= hidden_field_tag 'user[coordinates_str]' %>
+  </div>
+  <div>
+    <%= hidden_field_tag :id, params[:id] %>
   </div>
   <div>
     <%= f.submit 'Envoyer' %>

@@ -7,14 +7,19 @@ class UsersController < ApplicationController
   end
 
   def create
-    params[:user][:email] += '@telecom-paristech.fr'  if params[:user][:email]
-    @user = User.where(email: user_params[:email]).first || User.new
-    new_user = @user.coordinates.nil?
-    @user.assign_attributes user_params
-    @user.coordinates_str = params[:user][:coordinates]  if params[:user][:coordinates]
+    @user = User.new user_params
     if @user.save
-      UserMailer.welcome(@user).deliver  if new_user
-      render json: @user, status: (new_user ? :created : :ok)
+      UserMailer.welcome(@user).deliver
+      render json: @user, status: :created
+    else
+      render json: @user.errors.full_messages, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    @user = User.find params[:id]
+    if @user.update user_params
+      render json: @user, status: :ok
     else
       render json: @user.errors.full_messages, status: :unprocessable_entity
     end
@@ -29,7 +34,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit [:email, :country, :city, :company]
+    params.require(:user).permit [:login, :country, :city, :company, :coordinates_str]
   end
 
 end

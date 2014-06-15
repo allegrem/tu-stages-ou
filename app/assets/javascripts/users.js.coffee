@@ -5,10 +5,10 @@
 
 #new user form
 $(document).ready ->
-  $form = $('#new_user')
+  $form = $('.new_user, .edit_user')
   $openForm = $('#open-form')
   $submitButton = $form.find('input[type=submit]')
-  $userCoordinates = $('#user_coordinates')
+  $userCoordinates = $('#user_coordinates_str')
 
   closeForm = ->
     $form.fadeOut(300)
@@ -20,14 +20,17 @@ $(document).ready ->
     err_html += '</ul>'
     $form.find('.errors').html err_html
 
-  $openForm.click ->
+  openForm = ->
     $form.fadeIn(300).find('input:not([type=hidden])').first().focus()
-    $(this).fadeOut(300)
+    $openForm.fadeOut(300)
     $userCoordinates.val ''
     ga 'send', 'event', 'newUserForm', 'open'
 
-  $form.keyup (e) ->
-    closeForm()  if e.keyCode == 27
+  openForm()  if $form.find('#id').val() isnt ''
+
+  $openForm.click openForm
+
+  $form.keyup (e) -> closeForm()  if e.keyCode == 27
 
   $form.on 'submit', (e) ->
     if $userCoordinates.val() is ''

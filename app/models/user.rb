@@ -2,13 +2,13 @@ class User
 
   include Mongoid::Document
 
-  field :email
+  field :login
   field :company
   field :city
   field :country
   field :coordinates, :type => Array
 
-  validates :email, presence: true, format: /\A[a-zA-Z0-9._%+-]+@telecom\-paristech\.fr\Z/, uniqueness: true
+  validates :login, presence: true, format: /\A[a-zA-Z0-9._%+-]+\Z/, uniqueness: true
   validates :company, presence: true
   validates :city, presence: true
   validates :country, presence: true
@@ -29,6 +29,10 @@ class User
 
   def coordinates_str= (str)
     self.coordinates = str.split(',').map do |n| n.to_f end
+  end
+
+  def email
+    login + '@telecom-paristech.fr'
   end
 
 
