@@ -17,7 +17,7 @@ class User
   validates :country, presence: true
   validate :coordinates_validator
 
-  before_create :generate_token
+  before_create :update_token
 
 
   def address
@@ -44,6 +44,13 @@ class User
     self.where(cond).count > 0
   end
 
+  def update_token
+    self.token = loop do
+      random_token = SecureRandom.urlsafe_base64(nil, false)
+      break random_token unless self.class.exists?(token: random_token)
+    end
+  end
+
 
   private
 
@@ -53,11 +60,6 @@ class User
     end
   end
 
-  def generate_token
-    self.token = loop do
-      random_token = SecureRandom.urlsafe_base64(nil, false)
-      break random_token unless self.class.exists?(token: random_token)
-    end
-  end
+
 
 end
