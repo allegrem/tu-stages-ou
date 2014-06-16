@@ -8,7 +8,7 @@
   right: 0.5em;
   top: 0.2em;
   font-family: 'Roboto', sans-serif;
-  line-height: 0;
+  line-height: 1em;
   font-size: 5em;
   z-index: 2;
   border: none;
@@ -26,6 +26,32 @@
   &:hover {
     cursor: pointer;
     background-color: rgba(44,62,80,0.7);
+  }
+}
+
+.open-form-popup {
+  position: absolute;
+  right: 1em;
+  top: 7.5em;
+  z-index: 1;
+  background-color: rgba(44,62,80,0.7);
+  color: white;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  font-size: 1.2em;
+  font-weight: 300;
+  display: none;
+
+  &:after {
+    bottom: 100%;
+    left: 73%;
+    border: solid transparent;
+    border-bottom-color: rgba(44,62,80,0.7);
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    border-width: 15px;
   }
 }
 

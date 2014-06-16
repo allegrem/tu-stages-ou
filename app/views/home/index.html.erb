@@ -5,7 +5,10 @@
   <div class="moreResults"><output></output> résultat(s) supplémentaire(s)</div>
 </div>
 
-<button id="open-form">+</button>
+<div>
+  <button id="open-form">+</button>
+  <div class="open-form-popup">Déjà <%= @users.count %> inscrits ! Pourquoi pas toi ?</div>
+</div>
 
 <%= form_for @user, remote: true do |f| %>
   <a class="close">

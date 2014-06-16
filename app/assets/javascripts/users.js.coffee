@@ -9,6 +9,7 @@ $(document).ready ->
   $openForm = $('#open-form')
   $submitButton = $form.find('input[type=submit]')
   $userCoordinates = $('#user_coordinates_str')
+  $openFormPopup = $('.open-form-popup')
   eventCategory = if $('.edit_user').length is 0 then 'newUserForm' else 'editUserForm'
 
   closeForm = ->
@@ -27,9 +28,12 @@ $(document).ready ->
     $form.fadeIn(300).find('input:not([type=hidden])').first().focus()
     $openForm.fadeOut(300)
     $userCoordinates.val ''
+    $openFormPopup.fadeOut()
     ga 'send', 'event', eventCategory, 'open'
 
   openForm()  if $form.find('#token').val() isnt ''
+
+  setTimeout (-> $openFormPopup.fadeIn()), 5000
 
   $openForm.click openForm
   $form.find('a.close').click (e) ->
