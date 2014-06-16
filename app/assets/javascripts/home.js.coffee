@@ -29,12 +29,13 @@ class Map
           marker.properties.className += ' multi'
         marker.properties.label += 1
         marker.properties.className += (user.className || '')
+        marker.properties.name += ',' + user.name
         if marker.properties.label == 7
           marker.properties.title += '<br />and more...'
         else if marker.properties.label < 7
           marker.properties.title += '<br />' + user.name + ' @ ' + user.company
       else
-        geojson.features.push {
+        marker = {
           type: 'Feature'
           properties:
             title: user.name + ' @ ' + user.company
@@ -45,6 +46,8 @@ class Map
             type: 'Point'
             coordinates: user.coordinates
         }
+        geojson.features.push marker
+      user.marker = marker
     geojson
 
   add: (user, opts={}) ->
@@ -62,15 +65,15 @@ class Map
         iconSize: [40, 40]
 
   focusOn: (name) ->
-    marker = @_findMarker name
-    if marker
-      @map.setView marker.getLatLng(), 13
-      marker.openPopup()
+    user = @users.find (u) -> u.name.indexOf(name) isnt -1
+    if user
+      @map.setView [user.coordinates[1],user.coordinates[0]], 13
+      @_findMarker(name).openPopup()
 
   _findMarker: (name) ->
     foundMarker = null
     @myLayer.eachLayer (marker) ->
-      if marker.feature.properties.title.toLowerCase().indexOf(name.toLowerCase() + ' @') isnt -1
+      if marker.feature.properties.name.toLowerCase().indexOf(name.toLowerCase()) isnt -1
         foundMarker = marker
     return foundMarker
 
