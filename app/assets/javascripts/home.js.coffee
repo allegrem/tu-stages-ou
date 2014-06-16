@@ -19,7 +19,7 @@ class Map
     sameMarker = @geojson.features.find (u) ->
       u.geometry.coordinates[0] is user.coordinates[0] and u.geometry.coordinates[1] is user.coordinates[1]
     if sameMarker
-      if sameMarker.properties.className.indexOf 'multi' is -1
+      if sameMarker.properties.className.indexOf('multi') is -1
         sameMarker.properties.label = 1
         sameMarker.properties.className += ' multi'
       sameMarker.properties.label += 1
