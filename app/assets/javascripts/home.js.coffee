@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-STACK_LIMIT = [0,0,35,12,6,1,0.17,0.08,0.02,0.004,0.0012,0.00013,0.00003,0.000021,0.000005,0,0,0,0,0,0,0,0]
+STACK_LIMIT = [0,0,35,12,6,1,0.17,0.08,0.02,0.004,0.0012,0.00013,0.00003,0.000021,0.000005,0.000000000001,0.000000000001,0.000000000001,0.000000000001,0.000000000001,0.000000000001,0.000000000001,0]
 
 class Map
   constructor: ->
