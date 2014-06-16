@@ -2,6 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
+STACK_LIMIT = [0,0,20,12,6,1,0.17,0.08,0.02,0.004,0.0012,0.00013,0.00003,0.000021,0.000005,0,0,0,0,0,0,0,0]
 
 class Map
   constructor: ->
@@ -13,41 +14,48 @@ class Map
     @myLayer.on 'mouseout', (e) -> e.layer.closePopup()
     @myLayer.on 'click', (e) => @map.panTo e.layer.getLatLng()
 
-    @geojson = type: 'FeatureCollection', features: []
+    @map.on 'zoomend', @refresh, @
 
-  _generateGeoJSON: (user) ->
-    sameMarker = @geojson.features.find (u) ->
-      u.geometry.coordinates[0] is user.coordinates[0] and u.geometry.coordinates[1] is user.coordinates[1]
-    if sameMarker
-      if sameMarker.properties.className.indexOf('multi') is -1
-        sameMarker.properties.label = 1
-        sameMarker.properties.className += ' multi'
-      sameMarker.properties.label += 1
-      sameMarker.properties.title += '<br />' + user.name + ' @ ' + user.company
-      return sameMarker
-    else
-      {
-        type: 'Feature'
-        properties:
-          title: user.name + ' @ ' + user.company
-          name: user.name
-          label: user.label
-          className: 'myMarker'
-        geometry:
-          type: 'Point'
-          coordinates: user.coordinates
-      }
+    @users = []
+
+  _generateGeoJSON: ->
+    geojson = type: 'FeatureCollection', features: []
+    for user in @users
+      marker = geojson.features.find (u) =>
+        (u.geometry.coordinates[0] - user.coordinates[0])**2 + (u.geometry.coordinates[1] - user.coordinates[1])**2 < STACK_LIMIT[@map.getZoom()]
+      if marker
+        if marker.properties.className.indexOf('multi') is -1
+          marker.properties.label = 1
+          marker.properties.className += ' multi'
+        marker.properties.label += 1
+        marker.properties.className += (user.className || '')
+        if marker.properties.label == 7
+          marker.properties.title += '<br />and more...'
+        else if marker.properties.label < 7
+          marker.properties.title += '<br />' + user.name + ' @ ' + user.company
+      else
+        geojson.features.push {
+          type: 'Feature'
+          properties:
+            title: user.name + ' @ ' + user.company
+            name: user.name
+            label: user.label
+            className: 'myMarker' + (user.className || '')
+          geometry:
+            type: 'Point'
+            coordinates: user.coordinates
+        }
+    geojson
 
   add: (user, opts={}) ->
-    f = @_generateGeoJSON user
-    f.properties.className += ' animate'  if opts.animate
-    @geojson.features.push f  if f.properties.className.indexOf('multi') is -1
+    user.className = ' animate'  if opts.animate
+    @users.push user
     if opts.refresh
       @refresh()
       @focusOn user.name
 
   refresh: ->
-    @myLayer.setGeoJSON(@geojson).eachLayer (marker) ->
+    @myLayer.setGeoJSON(@_generateGeoJSON()).eachLayer (marker) ->
       marker.setIcon L.divIcon
         className: marker.feature.properties.className
         html: marker.feature.properties.label
@@ -56,8 +64,8 @@ class Map
   focusOn: (name) ->
     marker = @_findMarker name
     if marker
-      marker.openPopup()
       @map.setView marker.getLatLng(), 13
+      marker.openPopup()
 
   _findMarker: (name) ->
     foundMarker = null
@@ -67,8 +75,8 @@ class Map
     return foundMarker
 
   updateOrAdd: (user, opts={}) ->
-    prevUser = @geojson.features.findIndex (u) -> u.properties.name is user.name
-    @geojson.features.splice prevUser, 1  if prevUser isnt -1
+    prevUser = @users.findIndex (u) -> u.name is user.name
+    @users.splice prevUser, 1  if prevUser isnt -1
     @add user, opts
 
   openRandomPopup: ->
