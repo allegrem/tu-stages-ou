@@ -30,6 +30,7 @@ class Map
         type: 'Feature'
         properties:
           title: user.name + ' @ ' + user.company
+          name: user.name
           label: user.label
           className: 'myMarker'
         geometry:
@@ -61,14 +62,22 @@ class Map
   _findMarker: (name) ->
     foundMarker = null
     @myLayer.eachLayer (marker) ->
-      if marker.feature.properties.title.toLowerCase().indexOf((name+' @').toLowerCase()) isnt -1
+      if marker.feature.properties.title.toLowerCase().indexOf(name.toLowerCase() + ' @') isnt -1
         foundMarker = marker
     return foundMarker
 
   updateOrAdd: (user, opts={}) ->
-    prevUser = @geojson.features.findIndex (u) -> u.properties.title.indexOf(user.name) isnt -1
+    prevUser = @geojson.features.findIndex (u) -> u.properties.name is user.name
     @geojson.features.splice prevUser, 1  if prevUser isnt -1
     @add user, opts
+
+  openRandomPopup: ->
+    @lastPopup.closePopup()  if @lastPopup
+    if @map.getZoom() < 4
+      index = Math.floor(Math.random()*@myLayer.getLayers().length)
+      @lastPopup = @myLayer.getLayers()[index]
+      @lastPopup.openPopup()
+    setTimeout (=> @openRandomPopup()), 7000
 
 
 $(document).ready ->
@@ -91,3 +100,4 @@ $(document).ready ->
           ga 'send', 'event', 'searchForm', 'userEntryClick', $(this).data('name')
 
       document.myMap.refresh()
+      document.myMap.openRandomPopup()
