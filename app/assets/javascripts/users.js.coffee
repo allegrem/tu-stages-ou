@@ -32,6 +32,9 @@ $(document).ready ->
   openForm()  if $form.find('#token').val() isnt ''
 
   $openForm.click openForm
+  $form.find('a.close').click (e) ->
+    e.preventDefault()
+    closeForm()
 
   $form.keyup (e) -> closeForm()  if e.keyCode == 27
 

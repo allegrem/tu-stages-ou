@@ -8,6 +8,9 @@
 <button id="open-form">+</button>
 
 <%= form_for @user, remote: true do |f| %>
+  <a class="close">
+    &times;
+  </a>
   <div>
     <%= f.text_field :login, placeholder: "jean.dupont", class: "half-control" %>
     <small>@telecom-paristech.fr</small>
