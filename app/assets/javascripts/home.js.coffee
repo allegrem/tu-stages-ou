@@ -111,4 +111,4 @@ $(document).ready ->
           ga 'send', 'event', 'searchForm', 'userEntryClick', $(this).data('name')
 
       document.myMap.refresh()
-      document.myMap.openRandomPopup()
+      # document.myMap.openRandomPopup()
